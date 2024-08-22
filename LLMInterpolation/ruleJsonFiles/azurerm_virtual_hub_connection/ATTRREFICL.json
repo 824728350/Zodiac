@@ -1,0 +1,9 @@
+{
+    "Existence####azurerm_virtual_hub_connection.routing == Existence": [
+        [
+            "ATTR####ConstantThenExistence####azurerm_virtual_hub_connection.internet_security_enabled == false####azurerm_virtual_hub_connection.routing == Existence",
+            "If azurerm_virtual_hub_connection.a.internet_security_enabled == false, Then azurerm_virtual_hub_connection.a.routing is not null nor empty",
+            null
+        ]
+    ]
+}

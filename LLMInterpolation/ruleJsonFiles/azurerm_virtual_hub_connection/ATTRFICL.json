@@ -1,0 +1,16 @@
+{
+    "CIDRMask####azurerm_virtual_hub_connection.routing.static_vnet_route.address_prefixes == CIDR": [
+        [
+            "ATTR####EnumThenCIDRMask####azurerm_virtual_hub_connection.internet_security_enabled == Enum####azurerm_virtual_hub_connection.routing.static_vnet_route.address_prefixes == CIDR",
+            "If azurerm_virtual_hub_connection.a.internet_security_enabled is of certain value, Then azurerm_virtual_hub_connection.a.routing.static_vnet_route.address_prefixes has certain CIDR mask length restrictions",
+            null
+        ]
+    ],
+    "Constant####azurerm_virtual_hub_connection.internet_security_enabled == false": [
+        [
+            "ATTR####ExistenceThenConstant####azurerm_virtual_hub_connection.routing == Existence####azurerm_virtual_hub_connection.internet_security_enabled == false",
+            "If azurerm_virtual_hub_connection.a.routing is not null nor empty, Then azurerm_virtual_hub_connection.a.internet_security_enabled == false",
+            null
+        ]
+    ]
+}

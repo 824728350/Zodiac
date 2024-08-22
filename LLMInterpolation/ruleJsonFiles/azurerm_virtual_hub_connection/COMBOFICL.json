@@ -1,0 +1,102 @@
+{
+    "AbsenceComboDown####azurerm_virtual_hub_connection.routing.static_vnet_route == Absence": [
+        [
+            "COMBO####ReferenceThenAbsenceComboDown####azurerm_virtual_hub_connection.remote_virtual_network_id == String####azurerm_virtual_network.id == String####azurerm_virtual_hub_connection.routing.static_vnet_route == Absence",
+            "If azurerm_virtual_hub_connection.a.remote_virtual_network_id depends on azurerm_virtual_network.b.id, Then azurerm_virtual_hub_connection.a.routing.static_vnet_route is null or empty",
+            null
+        ],
+        [
+            "COMBO####ReferenceThenAbsenceComboDown####azurerm_virtual_hub_connection.virtual_hub_id == String####azurerm_virtual_hub.id == String####azurerm_virtual_hub_connection.routing.static_vnet_route == Absence",
+            "If azurerm_virtual_hub_connection.a.virtual_hub_id depends on azurerm_virtual_hub.b.id, Then azurerm_virtual_hub_connection.a.routing.static_vnet_route is null or empty",
+            null
+        ]
+    ],
+    "AbsenceComboUp####azurerm_virtual_hub.route == Absence": [
+        [
+            "COMBO####ReferenceThenAbsenceComboUp####azurerm_virtual_hub_connection.virtual_hub_id == String####azurerm_virtual_hub.id == String####azurerm_virtual_hub.route == Absence",
+            "If azurerm_virtual_hub_connection.a.virtual_hub_id depends on azurerm_virtual_hub.b.id, Then azurerm_virtual_hub.b.route is null or empty",
+            null
+        ]
+    ],
+    "CIDRExcludeCombo####azurerm_virtual_network.address_space == CIDR####azurerm_virtual_hub.address_prefix == CIDR": [
+        [
+            "COMBO####AssociateThenCIDRExcludeCombo####azurerm_virtual_hub_connection.remote_virtual_network_id == String####azurerm_virtual_hub_connection.virtual_hub_id == String####azurerm_virtual_network.id == String####azurerm_virtual_hub.id == String####azurerm_virtual_network.address_space == CIDR####azurerm_virtual_hub.address_prefix == CIDR",
+            "If azurerm_virtual_network.b and azurerm_virtual_hub.c connected or associated with each other via azurerm_virtual_hub_connection.a, Then the CIDR range of azurerm_virtual_hub.b.address_prefix does not overlap with the CIDR range of azurerm_virtual_network.a.address_space",
+            null
+        ]
+    ],
+    "ConstantComboDown####azurerm_virtual_hub_connection.internet_security_enabled == false": [
+        [
+            "COMBO####AncestorReferenceThenConstantComboDown####azurerm_virtual_hub_connection.PLACEHOLDER == String####azurerm_virtual_wan.PLACEHOLDER == String####azurerm_virtual_hub_connection.internet_security_enabled == false",
+            "If azurerm_virtual_hub_connection.a has an ancestor resource azurerm_virtual_wan.b, Then azurerm_virtual_hub_connection.a.internet_security_enabled == false",
+            null
+        ],
+        [
+            "COMBO####AncestorReferenceThenConstantComboDown####azurerm_virtual_hub_connection.PLACEHOLDER == String####azurerm_resource_group.PLACEHOLDER == String####azurerm_virtual_hub_connection.internet_security_enabled == false",
+            "If azurerm_virtual_hub_connection.a has an ancestor resource azurerm_resource_group.b, Then azurerm_virtual_hub_connection.a.internet_security_enabled == false",
+            null
+        ],
+        [
+            "COMBO####ReferenceThenConstantComboDown####azurerm_virtual_hub_connection.virtual_hub_id == String####azurerm_virtual_hub.id == String####azurerm_virtual_hub_connection.internet_security_enabled == false",
+            "If azurerm_virtual_hub_connection.a.virtual_hub_id depends on azurerm_virtual_hub.b.id, Then azurerm_virtual_hub_connection.a.internet_security_enabled == false",
+            null
+        ],
+        [
+            "COMBO####ReferenceThenConstantComboDown####azurerm_virtual_hub_connection.remote_virtual_network_id == String####azurerm_virtual_network.id == String####azurerm_virtual_hub_connection.internet_security_enabled == false",
+            "If azurerm_virtual_hub_connection.a.remote_virtual_network_id depends on azurerm_virtual_network.b.id, Then azurerm_virtual_hub_connection.a.internet_security_enabled == false",
+            null
+        ]
+    ],
+    "EqualCombo####azurerm_virtual_network.location == String####azurerm_virtual_hub.location == String": [
+        [
+            "COMBO####AssociateThenEqualCombo####azurerm_virtual_hub_connection.remote_virtual_network_id == String####azurerm_virtual_hub_connection.virtual_hub_id == String####azurerm_virtual_network.id == String####azurerm_virtual_hub.id == String####azurerm_virtual_network.location == String####azurerm_virtual_hub.location == String",
+            "If azurerm_virtual_network.b and azurerm_virtual_hub.c connected or associated with each other via azurerm_virtual_hub_connection.a, Then azurerm_virtual_network.a.location == azurerm_virtual_hub.b.location",
+            null
+        ]
+    ],
+    "ExistenceComboDown####azurerm_virtual_hub_connection.routing == Existence": [
+        [
+            "COMBO####ReferenceThenExistenceComboDown####azurerm_virtual_hub_connection.remote_virtual_network_id == String####azurerm_virtual_network.id == String####azurerm_virtual_hub_connection.routing == Existence",
+            "If azurerm_virtual_hub_connection.a.remote_virtual_network_id depends on azurerm_virtual_network.b.id, Then azurerm_virtual_hub_connection.a.routing is not null nor empty",
+            null
+        ],
+        [
+            "COMBO####ReferenceThenExistenceComboDown####azurerm_virtual_hub_connection.virtual_hub_id == String####azurerm_virtual_hub.id == String####azurerm_virtual_hub_connection.routing == Existence",
+            "If azurerm_virtual_hub_connection.a.virtual_hub_id depends on azurerm_virtual_hub.b.id, Then azurerm_virtual_hub_connection.a.routing is not null nor empty",
+            null
+        ]
+    ],
+    "ExistenceComboDown####azurerm_virtual_hub_connection.routing.static_vnet_route == Existence": [
+        [
+            "COMBO####ReferenceThenExistenceComboDown####azurerm_virtual_hub_connection.virtual_hub_id == String####azurerm_virtual_hub.id == String####azurerm_virtual_hub_connection.routing.static_vnet_route == Existence",
+            "If azurerm_virtual_hub_connection.a.virtual_hub_id depends on azurerm_virtual_hub.b.id, Then azurerm_virtual_hub_connection.a.routing.static_vnet_route is not null nor empty",
+            null
+        ],
+        [
+            "COMBO####ReferenceThenExistenceComboDown####azurerm_virtual_hub_connection.remote_virtual_network_id == String####azurerm_virtual_network.id == String####azurerm_virtual_hub_connection.routing.static_vnet_route == Existence",
+            "If azurerm_virtual_hub_connection.a.remote_virtual_network_id depends on azurerm_virtual_network.b.id, Then azurerm_virtual_hub_connection.a.routing.static_vnet_route is not null nor empty",
+            null
+        ]
+    ],
+    "UnequalCombo####azurerm_virtual_hub_connection.name == String####azurerm_virtual_hub.name == String": [
+        [
+            "COMBO####ReferenceThenUnequalCombo####azurerm_virtual_hub_connection.virtual_hub_id == String####azurerm_virtual_hub.id == String####azurerm_virtual_hub_connection.name == String####azurerm_virtual_hub.name == String",
+            "If azurerm_virtual_hub_connection.a.virtual_hub_id depends on azurerm_virtual_hub.b.id, Then azurerm_virtual_hub_connection.a.name != azurerm_virtual_hub.b.name",
+            null
+        ]
+    ],
+    "UnequalCombo####azurerm_virtual_hub_connection.name == String####azurerm_virtual_network.name == String": [
+        [
+            "COMBO####ReferenceThenUnequalCombo####azurerm_virtual_hub_connection.remote_virtual_network_id == String####azurerm_virtual_network.id == String####azurerm_virtual_hub_connection.name == String####azurerm_virtual_network.name == String",
+            "If azurerm_virtual_hub_connection.a.remote_virtual_network_id depends on azurerm_virtual_network.b.id, Then azurerm_virtual_hub_connection.a.name != azurerm_virtual_network.b.name",
+            null
+        ]
+    ],
+    "UnequalCombo####azurerm_virtual_network.name == String####azurerm_virtual_hub.name == String": [
+        [
+            "COMBO####AssociateThenUnequalCombo####azurerm_virtual_hub_connection.remote_virtual_network_id == String####azurerm_virtual_hub_connection.virtual_hub_id == String####azurerm_virtual_network.id == String####azurerm_virtual_hub.id == String####azurerm_virtual_network.name == String####azurerm_virtual_hub.name == String",
+            "If azurerm_virtual_network.b and azurerm_virtual_hub.c connected or associated with each other via azurerm_virtual_hub_connection.a, Then azurerm_virtual_network.a.name != azurerm_virtual_hub.b.name",
+            null
+        ]
+    ]
+}

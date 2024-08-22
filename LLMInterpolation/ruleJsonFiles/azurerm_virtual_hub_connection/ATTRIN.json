@@ -1,0 +1,15 @@
+{
+    "ATTR####EnumThenCIDRMask####azurerm_virtual_hub_connection.internet_security_enabled == Enum####azurerm_virtual_hub_connection.routing.static_vnet_route.address_prefixes == CIDR": [
+        "If azurerm_virtual_hub_connection.a.internet_security_enabled is of certain value, Then azurerm_virtual_hub_connection.a.routing.static_vnet_route.address_prefixes has certain CIDR mask length restrictions",
+        [
+            "ATTR####ConstantThenCIDRRange####azurerm_virtual_hub_connection.internet_security_enabled == False####azurerm_virtual_hub_connection.routing.static_vnet_route.address_prefixes == CIDR",
+            "If the value of azurerm_virtual_hub_connection.internet_security_enabled is False, then what is the maximum CIDR mask length azurerm_virtual_hub_connection.routing.static_vnet_route.address_prefixes could use? Please answer with an integer",
+            null
+        ],
+        [
+            "ATTR####ConstantThenCIDRRange####azurerm_virtual_hub_connection.internet_security_enabled == True####azurerm_virtual_hub_connection.routing.static_vnet_route.address_prefixes == CIDR",
+            "If the value of azurerm_virtual_hub_connection.internet_security_enabled is True, then what is the maximum CIDR mask length azurerm_virtual_hub_connection.routing.static_vnet_route.address_prefixes could use? Please answer with an integer",
+            null
+        ]
+    ]
+}

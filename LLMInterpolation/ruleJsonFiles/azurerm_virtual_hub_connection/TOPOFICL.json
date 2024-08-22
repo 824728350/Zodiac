@@ -1,0 +1,16 @@
+{
+    "Associate####azurerm_virtual_hub_connection.remote_virtual_network_id == String####azurerm_virtual_hub_connection.virtual_hub_id == String####azurerm_virtual_network.id == String####azurerm_virtual_hub.id == String": [
+        [
+            "TOPO####ReferenceThenAssociate####azurerm_virtual_hub_connection.remote_virtual_network_id == String####azurerm_virtual_network.id == String####azurerm_virtual_hub_connection.remote_virtual_network_id == String####azurerm_virtual_hub_connection.virtual_hub_id == String####azurerm_virtual_network.id == String####azurerm_virtual_hub.id == String",
+            "If azurerm_virtual_hub_connection.a.remote_virtual_network_id depends on azurerm_virtual_network.b.id, Then azurerm_virtual_network.b and azurerm_virtual_hub.c connected or associated with each other via azurerm_virtual_hub_connection.a",
+            null
+        ]
+    ],
+    "ConflictChild####azurerm_virtual_hub_connection.PLACEHOLDER == String####azurerm_virtual_network.PLACEHOLDER == String": [
+        [
+            "TOPO####ReferenceThenConflictChild####azurerm_virtual_hub_connection.remote_virtual_network_id == String####azurerm_virtual_network.id == String####azurerm_virtual_hub_connection.PLACEHOLDER == String####azurerm_virtual_network.PLACEHOLDER == String",
+            "If azurerm_virtual_hub_connection.a.remote_virtual_network_id depends on azurerm_virtual_network.b.id, Then azurerm_virtual_network.b could only have a single azurerm_virtual_hub_connection that is azurerm_virtual_hub_connection.a",
+            null
+        ]
+    ]
+}
