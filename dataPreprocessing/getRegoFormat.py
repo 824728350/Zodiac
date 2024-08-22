@@ -15,6 +15,15 @@ import argparse
 
 ### Uniformed provider blocks to replace ad-hoc user preferences which may cause issues.
 PROVIDER_AZURERM = """
+terraform {
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "=3.116.0"
+    }
+  }
+}
+
 provider "azurerm" {
  features {}
 }

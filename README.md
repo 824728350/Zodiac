@@ -27,10 +27,15 @@ Zodiac was tested against Terraform with Azure provider, but most of its compone
 
 For the purpose of artifact evaluation, data preprocessing, knowledge base construction, and LLM interpolation sections can be skipped.
 Simply run the following commands to obtain required inputs for mining, filtering and validation sections in the current directory:
-
+**Currently under maintaince due to breaking change from Terrafor Azure provider breaking changes a few hour agp (major version release)**
 ```
 git clone https://github.com/824728350/ZodiacAE.git
 cp -r ZodiacAE/*  .
+```
+
+Please also make sure you have an Azure account logged in + Azure subscription environment setup:
+```
+sudo az login
 ```
 
 ### Data preprocessing
@@ -99,7 +104,7 @@ Detailed instruction for LLM Interpolation is within the `READE.md` under `LLMIn
 ### Test case generation
 1. Make sure you have created an Azure account, logged into the account via CLI, and switched to the right subscription directory:
 ```
-sudo az login
+sudo az account set --subscription="{YOUR SUBSCRIPTION}"
 ```
 2. Invoke deployment based test case generation to validate the correctness of mined semantic checks:
 Running all the iterations to falsify or validate all candidate checks could take multiple hours:
