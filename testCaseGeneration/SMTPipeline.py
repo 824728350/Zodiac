@@ -588,10 +588,8 @@ def validationProcess(direction, resolve, interpolation, controlIndex):
         ruleDataList = json.load(open(f"../testFiles/candidateFile{controlIndex}.json", "r"))
         truthDataList = json.load(open(f"../testFiles/validatedFile{controlIndex}.json", "r"))
         for index in range(0, len(ruleDataList)):
-            # if index != 94:
-            #     continue
             print("Examine candidate: ", ruleDataList[index])
-            arglists.append([[ruleDataList[index][0], 'M', ruleDataList[index][1]], truthDataList, ruleDataList, interpolationDataList, False, controlIndex, direction])
+            arglists.append([[ruleDataList[index][0], 'M', ruleDataList[index][1]], truthDataList, ruleDataList, interpolationDataList, False, controlIndex, direction, resolve])
     
     pool = multiprocessing.Pool(processes=12)
     for arglist in arglists:
