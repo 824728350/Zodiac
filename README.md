@@ -27,7 +27,6 @@ Zodiac was tested against Terraform with Azure provider, but most of its compone
 
 For the purpose of artifact evaluation, data preprocessing, knowledge base construction, and LLM interpolation sections can be skipped.
 Simply run the following commands to obtain required inputs for mining, filtering and validation sections in the current directory:
-**Currently under maintaince due to breaking change from Terraform Azure provider update a few hours ago (major 4.0 version release)**
 ```
 git clone https://github.com/824728350/ZodiacAE.git
 cp -r ZodiacAE/*  .
