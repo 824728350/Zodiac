@@ -16,6 +16,7 @@ import argparse
 import regoMVPGetKnowledgeBase
 import traceback
 import random
+import copy
 import string
 
 headerString = """
@@ -115,6 +116,8 @@ inclusiveDependencyList := [[address1, address2, idAttr1, idAttr2, idAttrSlice1,
     idAttrListSlice1 := array.slice(attr1, 0, count(attr1)-1)
     idAttrSlice1 := concat(".", idAttrListSlice1)
     idAttr2 := trim_prefix(value1, idAddr2)
+    not contains(idAttr1, "fqdn")
+    not contains(idAttr2, "fqdn")
     #any([idAttr2 == "name", idAttr2 == "id"])
     #any([contains(idAttr1, "_name"), contains(idAttr1, "_id")])
     idAttrList2 := split(idAttr2, ".")
@@ -249,6 +252,15 @@ def hcl2jsonTranslation(inputDirName, outputDirName, resourceDetail):
                                                 for attrBlock in resourceBlock[resourceType][resourceInstance][resourceAttribute]:
                                                     if attrCandidateList[1] not in attrBlock:
                                                         attrBlock[attrCandidateList[1]] = None
+                                if type(resourceBlock[resourceType][resourceInstance][resourceAttribute]) == list:
+                                    attributeBlock = copy.deepcopy(resourceBlock[resourceType][resourceInstance][resourceAttribute])
+                                    for index in range(len(attributeBlock)):
+                                        if type(attributeBlock[index]) != dict:
+                                            continue
+                                        else:
+                                            for resourceSubAttribute in attributeBlock[index]:
+                                                if resourceSubAttribute in ["lifecycle", "domain_name_label", "tags", "fqdn", "fqdns"]:
+                                                    del(resourceBlock[resourceType][resourceInstance][resourceAttribute][index][resourceSubAttribute])
                                 if "vhd" in resourceAttribute:
                                     flagComplex = True
                                 elif resourceAttribute == "count" or resourceAttribute == "for_each":
@@ -256,15 +268,15 @@ def hcl2jsonTranslation(inputDirName, outputDirName, resourceDetail):
                                 elif resourceAttribute == "depends_on":
                                     tempList = resourceBlock[resourceType][resourceInstance][resourceAttribute][:]
                                     resourceBlock[resourceType][resourceInstance][resourceAttribute] = []
-                                elif resourceAttribute in ["lifecycle", "domain_name_label", "tags"]:
+                                elif resourceAttribute in ["lifecycle", "domain_name_label", "tags", "fqdn", "fqdns"]:
                                     del(resourceBlock[resourceType][resourceInstance][resourceAttribute])
-                                
                                 elif type(resourceBlock[resourceType][resourceInstance][resourceAttribute]) == str and "\n" in resourceBlock[resourceType][resourceInstance][resourceAttribute]:
                                     del(resourceBlock[resourceType][resourceInstance][resourceAttribute])
                                 elif type(resourceBlock[resourceType][resourceInstance][resourceAttribute]) == str and ("substr" in resourceBlock[resourceType][resourceInstance][resourceAttribute] or "replace" in resourceBlock[resourceType][resourceInstance][resourceAttribute]):
                                     repString = ''.join(random.choices(string.ascii_lowercase + string.digits, k=5))
                                     resourceBlock[resourceType][resourceInstance][resourceAttribute] = repString
-                                    
+        
+                                  
             if "variable" in dictValue:
                 for variableBlock in dictValue["variable"]:
                     for variableInstance in variableBlock:

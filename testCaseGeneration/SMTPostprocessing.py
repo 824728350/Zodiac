@@ -459,6 +459,8 @@ def getGENConfiguration(testRule, jsonInputDirName, jsonOutputDirName, mutationD
                                             flagFound = False
                                     if flagFound == False:
                                         mappingDirectory = f"../folderFiles/folders_{resourceType}_mapping" 
+                                        if not os.path.exists(mappingDirectory):
+                                            break
                                         for mappingFileName in sorted(list(os.listdir(mappingDirectory))):
                                             mappingPath = os.path.join(mappingDirectory, mappingFileName)
                                             mappingFiles = [os.path.join(dp, f) for dp, dn, fn in os.walk(os.path.expanduser(f"{mappingPath}")) for f in fn]

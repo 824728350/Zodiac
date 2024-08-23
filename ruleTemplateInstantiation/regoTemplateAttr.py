@@ -26,6 +26,7 @@ opIfAbsence = """
     not contains(idAttrIfAbsence, "address_space")
     not contains(idAttrIfAbsence, "id")
     not contains(idAttrIfAbsence, "certificate")
+    not contains(idAttrIfAbsence, "fqdn")
     not contains(idAttrIfAbsence, "_name")
 """
 pathIfAbsence = ["pathIfAbsence"]
@@ -59,6 +60,7 @@ opThenAbsence = """
     not contains(idAttrThenAbsence, "address_space")
     not contains(idAttrThenAbsence, "id")
     not contains(idAttrThenAbsence, "certificate")
+    not contains(idAttrThenAbsence, "fqdn")
     not contains(idAttrThenAbsence, "_name")
 """
 pathThenAbsence = ["pathThenAbsence"]
@@ -90,6 +92,7 @@ opIfExistence = """
     not contains(idAttrIfExistence, "address_space")
     not contains(idAttrIfExistence, "id")
     not contains(idAttrIfExistence, "certificate")
+    not contains(idAttrIfExistence, "fqdn")
     not contains(idAttrIfExistence, "_name")
 """
 pathIfExistence = ["pathIfExistence"]
@@ -123,6 +126,7 @@ opThenExistence = """
     not contains(idAttrThenExistence, "address_space")
     not contains(idAttrThenExistence, "id")
     not contains(idAttrThenExistence, "certificate")
+    not contains(idAttrThenExistence, "fqdn")
     not contains(idAttrThenExistence, "_name")
 """
 pathThenExistence = ["pathThenExistence"]
