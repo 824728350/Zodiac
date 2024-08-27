@@ -26,6 +26,7 @@ opIfAbsence = """
     not contains(idAttrIfAbsence, "address_space")
     not contains(idAttrIfAbsence, "id")
     not contains(idAttrIfAbsence, "certificate")
+    not contains(idAttrIfAbsence, "timeout")
     not contains(idAttrIfAbsence, "fqdn")
     not contains(idAttrIfAbsence, "_name")
 """
@@ -60,6 +61,7 @@ opThenAbsence = """
     not contains(idAttrThenAbsence, "address_space")
     not contains(idAttrThenAbsence, "id")
     not contains(idAttrThenAbsence, "certificate")
+    not contains(idAttrThenAbsence, "timeout")
     not contains(idAttrThenAbsence, "fqdn")
     not contains(idAttrThenAbsence, "_name")
 """
@@ -92,6 +94,7 @@ opIfExistence = """
     not contains(idAttrIfExistence, "address_space")
     not contains(idAttrIfExistence, "id")
     not contains(idAttrIfExistence, "certificate")
+    not contains(idAttrIfExistence, "timeout")
     not contains(idAttrIfExistence, "fqdn")
     not contains(idAttrIfExistence, "_name")
 """
@@ -126,6 +129,7 @@ opThenExistence = """
     not contains(idAttrThenExistence, "address_space")
     not contains(idAttrThenExistence, "id")
     not contains(idAttrThenExistence, "certificate")
+    not contains(idAttrThenExistence, "timeout")
     not contains(idAttrThenExistence, "fqdn")
     not contains(idAttrThenExistence, "_name")
 """
@@ -491,7 +495,7 @@ opIfEnum= """
     not contains(idAttrIfEnum, "location")
     not contains(idAttrIfEnum, "tags")
     not contains(idAttrIfEnum, "id")
-    not contains(idAttrIfEnum, "_name")
+    any([contains(idAttrIfEnum, "_name") == false, contains(idAttrIfEnum, "sku")])
 """
 pathIfEnum = ["pathIfEnum"]
 idTypeIfEnum = ["idTypeIfEnum"]
@@ -514,7 +518,7 @@ opThenEnum= """
     not contains(idAttrThenEnum, "location")
     not contains(idAttrThenEnum, "tags")
     not contains(idAttrThenEnum, "id")
-    not contains(idAttrThenEnum, "_name")
+    any([contains(idAttrThenEnum, "_name") == false, contains(idAttrThenEnum, "sku")])
 """
 pathThenEnum = ["pathThenEnum"]
 idTypeThenEnum = ["idTypeThenEnum"]
@@ -731,7 +735,7 @@ def constructRegoAttr(resourceType, opType):
                     idAttr3 = idAttrList1[0]
                     regoOpString += f"    contains({idAttr1},{idAttr3})\n"
             if opName1 == "Enum" and opName2 == "Enum":
-                regoOpString += f'    any([contains(idAttrThenEnum, "type"), contains(idAttrThenEnum, "name"), contains(idAttrThenEnum, "priority"), contains(idAttrThenEnum, "enable"), contains(idAttrThenEnum, "publisher"), contains(idAttrThenEnum, "offer"), contains(idAttrThenEnum, "version")])\n'
+                regoOpString += f'    any([contains(idAttrThenEnum, "type"), contains(idAttrThenEnum, "name"), contains(idAttrThenEnum, "priority"), contains(idAttrThenEnum, "enable"), contains(idAttrThenEnum, "publisher"), contains(idAttrThenEnum, "offer"), contains(idAttrThenEnum, "version"), contains(idAttrThenEnum, "scale"), contains(idAttrThenEnum, "zone"), contains(idAttrThenEnum, "collation")])\n'
                 regoOpString += f'    not any([contains(idAttrThenEnum, "name"), contains(idAttrThenEnum, "sku"), contains(idAttrThenEnum, "size")])\n'
                 regoOpString += f'    not any([contains(idAttrIfEnum, "publisher"), contains(idAttrIfEnum, "offer"), contains(idAttrIfEnum, "version")])\n'
                 #regoOpString += f'    not contains(idAttrIfEnum, "version")\n'

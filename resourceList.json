@@ -47,5 +47,7 @@
 "azurerm_storage_account_network_rules", 
 "azurerm_virtual_machine", 
 "azurerm_windows_virtual_machine", 
-"azurerm_application_gateway"
+"azurerm_application_gateway",
+"azurerm_mssql_server",
+"azurerm_mssql_database"
 ]

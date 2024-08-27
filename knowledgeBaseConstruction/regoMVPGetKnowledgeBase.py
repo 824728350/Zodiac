@@ -88,7 +88,8 @@ resultConfigAttr[address] := attrList {bracket1}
         ]
         idAttr := concat(".", attr)
         not any([idAttr == "name", idAttr == "id"])
-        not any([contains(idAttr, "_name"), contains(idAttr, "_id")])
+        not contains(idAttr, "_id")
+        any([contains(idAttr, "_name") == false, contains(idAttr, "sku")])
         any([is_string(value), is_boolean(value), is_number(value), is_array(value), is_object(value)])
     ]
 {bracket2}
@@ -955,7 +956,7 @@ def determineValue(resourceType, resourceProvider):
                 for item in KBRepoView[resourceType][attrName]:
                     valueUnfilteredDict[attrName].append(item)
                 #if len(repoView[resourceType][attrName]) <= 5 and schemaAttrMode == "required":
-                if len(KBRepoView[resourceType][attrName]) == 1 or "_name" in attrName or "_id" in attrName or "_key" in attrName or "/" in attrName or "_range" in attrName or \
+                if len(KBRepoView[resourceType][attrName]) == 1 or ("_name" in attrName and "sku" not in attrName) or "_id" in attrName or "_key" in attrName or "/" in attrName or "_range" in attrName or \
                     "_uri" in attrName or ("_address" in attrName and "_address_" not in attrName) or (".name" in attrName and "sku" not in attrName) or ".address" in attrName or "id" in attrName:
                     continue
                 elif len(KBRepoView[resourceType][attrName]) <= 6:

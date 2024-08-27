@@ -138,7 +138,7 @@ def getMDCConfiguration(testRule, jsonInputDirName, jsonOutputDirName, MDCResour
                                     resourceGroupList.append(f"ZODIAC-MDC-{resourceGroupId}")
                                     resourceGroupId += 1
                                     resourceGroupNum += 1
-                        elif resourceType in ["azurerm_storage_account", "azurerm_linux_web_app"]:
+                        elif resourceType in ["azurerm_storage_account", "azurerm_linux_web_app", "azurerm_mssql_server"]:
                             ### These resources require globally unique names
                             for resourceAttribute in resourceList[resourceType][resourceName]:
                                 if resourceAttribute in ["name"]:
@@ -214,6 +214,7 @@ def getGENConfiguration(testRule, jsonInputDirName, jsonOutputDirName, mutationD
         tfFiles = [os.path.join(dp, f) for dp, dn, fn in os.walk(os.path.expanduser(f"{jsonOutputDirName}")) for f in fn]
         resourceGroupId = resourceGroupStartId + 100
         storageAccountId = resourceGroupStartId + 100
+        virtualResourceId = resourceGroupStartId + 200
         
         tfFileIndex = 0
         for tfFile in tfFiles:
@@ -272,12 +273,17 @@ def getGENConfiguration(testRule, jsonInputDirName, jsonOutputDirName, mutationD
                                             newResourceList[resourceType][newResourceName][resourceAttribute] = f"ZODIAC-GEN-{resourceGroupId}"
                                             resourceGroupList.append(f"ZODIAC-GEN-{resourceGroupId}")
                                             resourceGroupId += 1
-                                elif resourceType in ["azurerm_storage_account", "azurerm_linux_web_app"]:
+                                elif resourceType in ["azurerm_storage_account", "azurerm_linux_web_app", "azurerm_mssql_server"]:
                                     ### These resources require globally unique names
                                     for resourceAttribute in newResourceList[resourceType][newResourceName]:
                                         if resourceAttribute in ["name"]:
-                                            newResourceList[resourceType][newResourceName][resourceAttribute] = f"zodiacyiminggen{storageAccountId}"
+                                            newResourceList[resourceType][newResourceName][resourceAttribute] = f"zodiacgen{storageAccountId}"
                                             storageAccountId += 1
+                                else:
+                                    for resourceAttribute in newResourceList[resourceType][newResourceName]:
+                                        if resourceAttribute in ["name"]:
+                                            newResourceList[resourceType][newResourceName][resourceAttribute] = f"zodiacvir{virtualResourceId}"
+                                            virtualResourceId += 1
                                 resourceJsonData["resource"].append(newResourceList)
                         else:
                             if resourceAddress in ignoredResourceSet:
@@ -287,10 +293,10 @@ def getGENConfiguration(testRule, jsonInputDirName, jsonOutputDirName, mutationD
                                     resourceList[resourceType][resourceName]["name"] = f"ZODIAC-GEN-{resourceGroupId}"
                                     resourceGroupList.append(f"ZODIAC-GEN-{resourceGroupId}")
                                     resourceGroupId += 1
-                            elif resourceType in ["azurerm_storage_account", "azurerm_linux_web_app"]:
+                            elif resourceType in ["azurerm_storage_account", "azurerm_linux_web_app", "azurerm_mssql_server"]:
                                 ### These resources require globally unique names
                                 if "name" in resourceList[resourceType][resourceName]:
-                                    resourceList[resourceType][resourceName]["name"] = f"zodiacyiminggen{storageAccountId}"
+                                    resourceList[resourceType][resourceName]["name"] = f"zodiacgen{storageAccountId}"
                                     storageAccountId += 1
                             resourceJsonData["resource"].append(resourceList)
                             
