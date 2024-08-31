@@ -580,8 +580,6 @@ def validationProcess(direction, resolve, interpolation, controlIndex):
         interpolationDataList = []
         truthDataList = json.load(open(f"../testFiles/validatedFile{tempValue}.json", "r"))
         for index in range(0, len(ruleDataList)):
-            if index != 0:
-                continue
             print("Examine candidate: ", ruleDataList[index])
             #coreValidationPipeline([ruleDataList[index][0], 'M', ruleDataList[index][1]], truthDataList, ruleDataList, interpolationDataList, False, controlIndex, direction, resolve)
             arglists.append([[ruleDataList[index][0], 'M', ruleDataList[index][1]], truthDataList, ruleDataList, interpolationDataList, False, controlIndex, direction, resolve])
@@ -590,8 +588,6 @@ def validationProcess(direction, resolve, interpolation, controlIndex):
         ruleDataList = json.load(open(f"../testFiles/candidateFile{controlIndex}.json", "r"))
         truthDataList = json.load(open(f"../testFiles/validatedFile{controlIndex}.json", "r"))
         for index in range(0, len(ruleDataList)):
-            if index != 208:
-                continue
             print("Examine candidate: ", ruleDataList[index])
             arglists.append([[ruleDataList[index][0], 'M', ruleDataList[index][1]], truthDataList, ruleDataList, interpolationDataList, False, controlIndex, direction, resolve])
             #coreValidationPipeline([ruleDataList[index][0], 'M', ruleDataList[index][1]], truthDataList, ruleDataList, interpolationDataList, False, controlIndex, direction, resolve)

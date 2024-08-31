@@ -142,7 +142,7 @@ def getMDCConfiguration(testRule, jsonInputDirName, jsonOutputDirName, MDCResour
                             ### These resources require globally unique names
                             for resourceAttribute in resourceList[resourceType][resourceName]:
                                 if resourceAttribute in ["name"]:
-                                    resourceList[resourceType][resourceName][resourceAttribute] = f"zodiacymdc{storageAccountId}"
+                                    resourceList[resourceType][resourceName][resourceAttribute] = f"zodiacmdc{storageAccountId}"
                                     storageAccountId += 1
                         
                     if len(resourceList[resourceType]) == 0:
