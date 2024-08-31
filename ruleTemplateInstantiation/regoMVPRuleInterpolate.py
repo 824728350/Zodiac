@@ -39,11 +39,20 @@ def interpolateOperators(csvFileName, interpolateFileName, classFileName):
                 newRowList.append([row[0], row[1].replace("EnumThen", "ConstantThen"), row[2].replace("Enum", str(attrValue))] + row[3:])
                 newStringList.append(f"If the value of {statement1} is {attrValue}, ")
             rowIndex += 1
+        elif  operationList[0] in ["Reference"]:
+            resourceType1 = row[rowIndex][:find_nth(row[rowIndex], ".", 1)]
+            resourceAttr1 = row[rowIndex][find_nth(row[rowIndex], ".", 1)+1:find_nth(row[rowIndex], "=", 1)-1]
+            resourceType2 = row[rowIndex+1][:find_nth(row[rowIndex+1], ".", 1)]
+            resourceAttr2 = row[rowIndex+1][find_nth(row[rowIndex+1], ".", 1)+1:find_nth(row[rowIndex+1], "=", 1)-1]
+            newRowList.append(row)
+            newStringList.append(f"If the value of {resourceType1}.{resourceAttr1} depends on {resourceType2}.{resourceAttr2}, ")
+            rowIndex += 2
         else:
             continue
         if operationList[1] in ["CountChild", "CountParent", "CIDRMask", "CIDRMaskComboDown", "CIDRMaskComboUp"]:
             for newRow in newRowList:
                 for index in range(len(newRow)):
+                    #print("newRow:", newRow[index])
                     newRow[index] = newRow[index].replace("CountChild", "AggChild")
                     newRow[index] = newRow[index].replace("CountParent", "AggParent")
                     newRow[index] = newRow[index].replace("CIDRMask", "CIDRRange")

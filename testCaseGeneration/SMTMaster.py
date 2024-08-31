@@ -644,13 +644,13 @@ class SMTMaster:
                             self.vertexDict[resourceInputPort] = "InputPort"
                             self.instanceDict[resourceInputPort] = resourceType + "." + ref1
                             resourceInputPortList[resourceName].append(resourceInputPort)
-                    elif type2 == resourceType:
+                    if type2 == resourceType:
                         resourceOutputPort = resourceName + "." + ref2
                         if resourceOutputPort not in self.vertexDict:
                             self.VertexSort.declare(resourceOutputPort)
                             self.vertexDict[resourceOutputPort] = "OutputPort"
                             self.instanceDict[resourceOutputPort] = resourceType + "." + ref2
-        
+        print("Vertext dict: ", self.vertexDict)
         ### create resource node and port entity SMT variables 
         self.VertexSort.declare("rootNode")
         self.VertexSort = self.VertexSort.create()

@@ -288,7 +288,7 @@ def generateHandledByRegistry(registryType, existing):
         os.mkdir(receiverDir)
     utils.execute_cmd_imm(f"rm -rf {receiverDir}/*")
     #resourceList = regoMVPGetKnowledgeBase.resourceList
-    resourceList = ["azurerm_application_gateway"]
+    resourceList = json.load(open("../resourceList.json", "r"))
     ### both folders examples and usageExamples need to be processed!
     for inputDirName in [f"{registryType}/examples", f"{registryType}/usageExamples"]:
         for filename in os.listdir(inputDirName):

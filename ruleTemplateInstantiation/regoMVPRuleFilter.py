@@ -24,6 +24,7 @@ def positiveValidation(operation, opType, row, rowIndex, planRaw, config, depend
         resourceType = row[rowIndex][:find_nth(row[rowIndex], ".", 1)]
         resourceAttr = row[rowIndex][find_nth(row[rowIndex], ".", 1)+1:find_nth(row[rowIndex], "=", 1)-1]
         resourceValue = row[rowIndex][find_nth(row[rowIndex], "=", 2)+2:]
+        #print(operation, resourceType, resourceAttr, resourceValue)
         rowIndex += 1
     
         for resourceBlock in plan:
@@ -79,6 +80,7 @@ def positiveValidation(operation, opType, row, rowIndex, planRaw, config, depend
         resourceType2 = row[rowIndex+1][:find_nth(row[rowIndex+1], ".", 1)]
         resourceAttr2 = row[rowIndex+1][find_nth(row[rowIndex+1], ".", 1)+1:find_nth(row[rowIndex+1], "=", 1)-1]
         resourceValue2 = row[rowIndex+1][find_nth(row[rowIndex+1], "=", 2)+2:]
+        #print(operation, resourceType1, resourceAttr1, resourceValue1, resourceType2, resourceAttr2, resourceValue2)
         for index1, resourceBlock1 in enumerate(plan):
             for index2, resourceBlock2 in enumerate(plan):
                 if resourceBlock1["type"] != resourceType1 or resourceBlock2["type"] != resourceType2:
@@ -220,6 +222,7 @@ def positiveValidation(operation, opType, row, rowIndex, planRaw, config, depend
             if ele.isnumeric() and ele != "0":
                 flagDiscard = True
                 
+        #print(operation, resourceType1, resourceAttr1, resourceValue1, resourceType2, resourceAttr2, resourceValue2)
         for index1, resourceBlock1 in enumerate(plan):
             resourceName1 = resourceBlock1["address"]
             resourceTypeName1 = resourceBlock1["type"]
@@ -387,6 +390,7 @@ def positiveValidation(operation, opType, row, rowIndex, planRaw, config, depend
         for ele in resourceAttr1.split("."):
             if ele.isnumeric() and ele != "0":
                 flagDiscard = True
+        #print(operation, resourceType1, resourceAttr1, resourceValue1, resourceType2, resourceAttr2, resourceValue2)
         for name1, name2, attr1, attr2, _, _ in dependencyList:
             type1 = name1.split(".")[0]
             type2 = name2.split(".")[0]
@@ -415,6 +419,7 @@ def positiveValidation(operation, opType, row, rowIndex, planRaw, config, depend
         for ele in resourceAttr1.split("."):
             if ele.isnumeric() and ele != "0":
                 flagDiscard = True
+        #print(operation, resourceType1, resourceAttr1, resourceValue1, resourceType2, resourceAttr2, resourceValue2)
         if operation in ["ConflictChild"]:
             for name1, name2, attr1, attr2, _, _ in dependencyList:
                 type1 = name1.split(".")[0]
@@ -436,6 +441,7 @@ def positiveValidation(operation, opType, row, rowIndex, planRaw, config, depend
                 for name2 in naiveAncestorDict[name1]:
                     type1 = name1.split(".")[0]
                     type2 = name2.split(".")[0]
+                    #print(type1, type2, attr1, attr2, resourceType1, resourceType2, resourceAttr1, resourceAttr2)
                     if type1 == resourceType1 and type2 == resourceType2:
                         flagConflict = False
                         
@@ -759,6 +765,8 @@ def filterRuleExpression(jsonFileName, jsonFilteredFileName, inputDirName, outpu
             countInvalid = 1
         elif operationList[0] in ["Enum", "EnumComboDown", "EnumComboUp"] and \
              operationList[1] in ["CountChild", "CountParent", "CIDRMask", "CIDRMaskComboDown", "CIDRMaskComboUp", "Enum"]:
+            countInvalid = 0
+        elif  operationList[0] in ["Reference"] and operationList[1] in ["CIDRMask", "CIDRMaskComboDown", "CIDRMaskComboUp"]:
             countInvalid = 0
         elif operationList[0] in ["CountChild", "CountParent", "Enum", "CIDRMask", "EnumComboDown", "EnumComboUp", "CIDRMaskComboDown", "CIDRMaskComboUp"] or \
              operationList[1] in ["CountChild", "CountParent", "Enum", "CIDRMask", "EnumComboDown", "EnumComboUp", "CIDRMaskComboDown", "CIDRMaskComboUp"]:

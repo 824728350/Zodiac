@@ -133,7 +133,7 @@ def coreValidationPipeline(contextData, validatedRuleVault, candidateRuleVault =
                 
     for item in candidateRuleList:
         if item not in filteredValidatedRuleList and item not in filteredCandidateRuleList:
-            if interpolation == False and ("ThenNonConstant" in item[1] or "ThenCIDRRange" in item[1]):
+            if interpolation == False and ("ThenNonConstant" in item[1]):
                 continue
             elif interpolation == True and testRule[2] != item[2]:
                 continue
@@ -580,6 +580,8 @@ def validationProcess(direction, resolve, interpolation, controlIndex):
         interpolationDataList = []
         truthDataList = json.load(open(f"../testFiles/validatedFile{tempValue}.json", "r"))
         for index in range(0, len(ruleDataList)):
+            if index != 0:
+                continue
             print("Examine candidate: ", ruleDataList[index])
             #coreValidationPipeline([ruleDataList[index][0], 'M', ruleDataList[index][1]], truthDataList, ruleDataList, interpolationDataList, False, controlIndex, direction, resolve)
             arglists.append([[ruleDataList[index][0], 'M', ruleDataList[index][1]], truthDataList, ruleDataList, interpolationDataList, False, controlIndex, direction, resolve])
@@ -588,14 +590,17 @@ def validationProcess(direction, resolve, interpolation, controlIndex):
         ruleDataList = json.load(open(f"../testFiles/candidateFile{controlIndex}.json", "r"))
         truthDataList = json.load(open(f"../testFiles/validatedFile{controlIndex}.json", "r"))
         for index in range(0, len(ruleDataList)):
+            if index != 208:
+                continue
             print("Examine candidate: ", ruleDataList[index])
             arglists.append([[ruleDataList[index][0], 'M', ruleDataList[index][1]], truthDataList, ruleDataList, interpolationDataList, False, controlIndex, direction, resolve])
-    
+            #coreValidationPipeline([ruleDataList[index][0], 'M', ruleDataList[index][1]], truthDataList, ruleDataList, interpolationDataList, False, controlIndex, direction, resolve)
     pool = multiprocessing.Pool(processes=12)
     for arglist in arglists:
         pool.apply_async(coreValidationPipeline, args=arglist)
     pool.close()
     pool.join()
+    
     
 def parse_args():
     parser = argparse.ArgumentParser()

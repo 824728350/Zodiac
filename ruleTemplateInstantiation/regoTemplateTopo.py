@@ -773,10 +773,6 @@ def topoConstruction(resourceType, providerType, ifList, thenList, fuzzyList, re
                 address21 = addressList2[1]
                 regoOpString += f"    {address11} == {address21}\n"
                 
-            elif opName1 in ["Reference"] and opName2 in ["Negation"]:
-                address10 = addressList1[0]
-                address20 = addressList2[0]
-                regoOpString += f"    {address10} == {address20}\n"
             elif opName1 in ["Associate"] and opName2 in ["Branch"]:
                 address11 = addressList1[1]
                 address12 = addressList1[2]

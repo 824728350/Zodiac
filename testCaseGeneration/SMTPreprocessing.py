@@ -19,7 +19,7 @@ import knowledgeBaseConstruction.regoMVPGetKnowledgeBase as regoMVPGetKnowledgeB
 def csv2regoConversion(operation, row, rowIndex, plan, config, valueDict, topoDict, operationList, conflictResolver, purpose):
     if operation in ["Absence", "Existence", "Constant", "AbsenceComboUp", "ExistenceComboUp", \
                      "AbsenceComboDown", "ExistenceComboDown", "ConstantComboUp", "ConstantComboDown", \
-                     "NonConstant", "NonConstantComboDown", "NonConstantComboUp", "CIDRRange"]:
+                     "NonConstant", "NonConstantComboDown", "NonConstantComboUp", "CIDRRange", "CIDRRangeComboUp", "CIDRRangeComboDown"]:
         resourceType = row[rowIndex][:find_nth(row[rowIndex], ".", 1)]
         resourceAttr = row[rowIndex][find_nth(row[rowIndex], ".", 1)+1:find_nth(row[rowIndex], "=", 1)-1]
         resourceValue = row[rowIndex][find_nth(row[rowIndex], "=", 2)+2:]
@@ -109,14 +109,23 @@ def csv2regoConversion(operation, row, rowIndex, plan, config, valueDict, topoDi
                         for resourceBlock2 in plan:
                             resourceName2 = resourceBlock2["address"]
                             valueDict[(resourceName, resourceName2)].append(valueArray[:])
-                elif operation in ["CIDRRange"]:
+                elif operation in ["CIDRRange", "CIDRRangeComboUp", "CIDRRangeComboDown"]:
                     if type(attributeValue) == list:
                         attributeValue = attributeValue[0]
                     if attributeValue == None:
                         print("Something went wrong when trying to find attribute value in lists")
                         return rowIndex, valueDict
                     valueArray = [resourceName+"."+resourceAttr, attributeValue, resourceValue, operation]
-                    valueDict[(resourceName, resourceName)].append(valueArray[:])
+                    if operation in ["CIDRRange"]:
+                        valueDict[(resourceName, resourceName)].append(valueArray[:])
+                    elif operation in ["CIDRRangeComboUp"]:
+                        for resourceBlock2 in plan:
+                            resourceName2 = resourceBlock2["address"]
+                            valueDict[(resourceName2, resourceName)].append(valueArray[:])
+                    elif operation in ["CIDRRangeComboDown"]:
+                        for resourceBlock2 in plan:
+                            resourceName2 = resourceBlock2["address"]
+                            valueDict[(resourceName, resourceName2)].append(valueArray[:])
                     
     elif operation in ["Equal", "Unequal", "CIDRInclude", "CIDRExclude", "EqualCombo", "UnequalCombo", "CIDRIncludeCombo", "CIDRExcludeCombo", "BinConstantCombo"]:
         resourceType1 = row[rowIndex][:find_nth(row[rowIndex], ".", 1)]
@@ -795,7 +804,7 @@ def getValueDict(operationList, row, planFiltered, config, conflictResolver, pur
                             "AbsenceComboDown", "ExistenceComboDown", "ConstantComboUp", "ConstantComboDown", "BinConstantCombo", \
                             "Reference", "Branch", "Associate", "Exclusive", "ConflictChild", "Intra", "Negation", \
                             "AncestorReference", "AncestorConflictChild", "AncestorBranch", "AncestorAssociate", "AggParent", "AggChild", \
-                            "NonConstant", "NonConstantComboDown", "NonConstantComboUp", "CIDRRange"]:
+                            "NonConstant", "NonConstantComboDown", "NonConstantComboUp", "CIDRRange", "CIDRRangeComboUp", "CIDRRangeComboDown"]:
             flagHandled = False
             break
         if rowIndex == 2:
@@ -1030,7 +1039,7 @@ def rego2SMTConversion(outputDirName, mappingDirName, testRule, validatedRuleLis
                     smtFormula.generate_topology_binary_mutation([valueArray], startIndex, flagEssence)
                 elif operationList[valueIndex] in ["Branch", "Associate", "Intra", "AncestorBranch", "AncestorAssociate"]:
                     smtFormula.generate_topology_ternary_mutation([valueArray], startIndex, flagEssence)
-                elif operationList[valueIndex] in ["CIDRRange"]:
+                elif operationList[valueIndex] in ["CIDRRange", "CIDRRangeComboUp", "CIDRRangeComboDown"]:
                     smtFormula.generate_mask_mutation([valueArray], startIndex, optimization)
             violationCount_index = z3.Int(f"violationCount_{startIndex}")
             

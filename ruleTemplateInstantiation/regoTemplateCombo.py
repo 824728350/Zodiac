@@ -43,7 +43,8 @@ def comboConstruction1(resourceType, providerType, item1, item2, regoOpString, o
     
     opName1, opName2 = item1[0], item2[0]
     if (opName1 in fuzzyList and opName2 not in fuzzyList) or  (opName1 not in fuzzyList and opName2 in fuzzyList):
-        return regoOpString, opCombinations
+        if not (opName1 == "Reference" and opName2 == "CIDRMask"):
+            return regoOpString, opCombinations
     if opName1 in ["Exclusive", "ConflictChild", "AncestorConflictChild"] and opName2 in ["Equal", "Unequal", "CIDRInclude", "CIDRExclude", "Constant", "Absence", "Existence"]:
         return regoOpString, opCombinations
     if opName1 in ["BinConstant"] or opName2 in ["BinConstant"]:
@@ -133,6 +134,13 @@ def comboConstruction1(resourceType, providerType, item1, item2, regoOpString, o
         if opName2 in ["EqualCombo"]:
             attrSlice1 = attrSliceList2[0]
             regoOpString += f'    count({attrSlice1}) == 0\n'
+        if opName1 in ["Reference"] and opName2 in ["UnequalCombo"]:
+            idAttr1 = idAttrList2[0]
+            idAttr2 = idAttrList2[1]
+            type1 = idTypeList1[0]
+            type2 = idTypeList1[1]
+            regoOpString += f"    any([{type1} == {type2}, {idAttr1} != {idAttr2}])\n"
+            regoOpString += f"    any([contains({idAttr1}, {idAttr2}), contains({idAttr2}, {idAttr1})])\n"
         regoOpString += f'    rule := concat(" ", ["{opName1}Then{opName2}", "####", '
         regoOpString += f'{output1}, "####", {output2}])\n'
         regoOpString += "]\n\n"
