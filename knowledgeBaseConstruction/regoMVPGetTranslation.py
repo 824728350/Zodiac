@@ -211,6 +211,23 @@ resourceDict[address] := [address_config, address_plan] {
 }
 """
 
+providerString = """
+{
+    "terraform": [
+        {
+            "required_providers": [
+                {
+                    "azurerm": {
+                        "source": "hashicorp/azurerm",
+                        "version": "=3.116.0"
+                    }
+                }
+            ]
+        }
+    ]
+}
+"""
+
 ### Translate repos from terraform hcl format into pure json format. This step
 ### is essential because right now there is no easy way for us to mutate hcl files
 ### directly. we tried several tools such as hcledit but they worked poorly.
@@ -225,6 +242,7 @@ def hcl2jsonTranslation(inputDirName, outputDirName, resourceDetail):
         
         tfFiles = [os.path.join(dp, f) for dp, dn, fn in os.walk(os.path.expanduser(f"{outputDirName}")) for f in fn]
         flagComplex = False
+        flagProvider = False
         for tfFile in tfFiles:
             if ".tf" != tfFile[-3:]:
                 continue
@@ -236,6 +254,8 @@ def hcl2jsonTranslation(inputDirName, outputDirName, resourceDetail):
                 continue
             if "module" in dictValue:
                 flagComplex = True
+            if "terraform" in dictValue:
+                flagProvider = True
             ### handle some special cases where json format cannot process as expected
             if "resource" in dictValue:
                 for resourceBlock in dictValue["resource"]:
@@ -289,6 +309,11 @@ def hcl2jsonTranslation(inputDirName, outputDirName, resourceDetail):
                 json.dump(dictValue, f, sort_keys = True, indent = 4)
             utils.execute_cmd_imm(f"rm -rf {tfFile}")
         
+        if flagProvider == False:
+            with open(f'{outputDirName}/zodiacprovider.tf.json', 'w') as f:
+                f.write(providerString)
+                  
+            
         jsonFiles = [os.path.join(dp, f) for dp, dn, fn in os.walk(os.path.expanduser(f"{outputDirName}")) for f in fn]
         countJsonList = []
         for jsonFile in jsonFiles:
@@ -476,16 +501,16 @@ if __name__ == "__main__":
     args = parse_args()
     if str(args.action) == "TRANS" and str(args.resource_name) == "ALL":
         ### This must be executed before get partial order function!
-        ### Usage example: time python3 -u regoMVPGetTranslation.py --action TRANS --resource_name ALL > output4
+        ### Usage example: sudo time python3 -u regoMVPGetTranslation.py --action TRANS --resource_name ALL > output4
         for resourceType in regoMVPGetKnowledgeBase.resourceList:
             formatTranslationBatchProcessing(resourceType)
     elif str(args.action) == "TRANS":
-        ### Usage example: time python3 -u regoMVPGetTranslation.py --action TRANS --resource_name azurerm_application_gateway
+        ### Usage example: sudo time python3 -u regoMVPGetTranslation.py --action TRANS --resource_name azurerm_application_gateway
         formatTranslationBatchProcessing(str(args.resource_name))
     elif str(args.action) == "MAP" and str(args.resource_name) == "ALL":
-        ### Usage example: time python3 -u regoMVPGetTranslation.py --action MAP --resource_name ALL > output5
+        ### Usage example: sudo time python3 -u regoMVPGetTranslation.py --action MAP --resource_name ALL > output5
         for resourceType in regoMVPGetKnowledgeBase.resourceList:
             formatMappingBatchProcessing(resourceType)
     elif str(args.action) == "MAP":
-        ### Usage example: time python3 -u regoMVPGetTranslation.py --action MAP --resource_name azurerm_application_gateway
+        ### Usage example: sudo time python3 -u regoMVPGetTranslation.py --action MAP --resource_name azurerm_application_gateway
         formatMappingBatchProcessing(str(args.resource_name))
