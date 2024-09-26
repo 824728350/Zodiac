@@ -121,7 +121,7 @@ By the end of this pipeline, you should be able to see a set of validated azurer
 ## Citation
 
 ```
-@inproceedings {qiu2024unleashing,
+@inproceedings {qiu2024unearthing,
     author = {Yiming Qiu, Patrick Tser Jern Kon, Ryan Beckett, Ang Chen},
     title = {Unearthing Semantic Checks for Cloud Infrastructure-as-Code Programs},
     booktitle = {Proc. SOSP},
