@@ -116,7 +116,7 @@ sudo python3 -u SMTPipeline.py --control_index 1 --direction True --interpolatio
 sudo python3 -u SMTSummarize.py --conrol_index 1 --direction True >output5 2>output6
 ```
 
-By the end of this pipeline, you should be able to see a set of validated azurerm_application_gateway checks at the end of `testFiles/validedFile1.json`.
+By the end of this pipeline, you should be able to see a set of new validated checks at the end of `testFiles/validatedFile1.json`.
 
 ## Citation
 
