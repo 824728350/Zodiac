@@ -279,11 +279,11 @@ def getGENConfiguration(testRule, jsonInputDirName, jsonOutputDirName, mutationD
                                         if resourceAttribute in ["name"]:
                                             newResourceList[resourceType][newResourceName][resourceAttribute] = f"zodiacgen{storageAccountId}"
                                             storageAccountId += 1
-                                # elif resourceType not in ["azurerm_subnet", "azurerm_lb"]:
-                                #     for resourceAttribute in newResourceList[resourceType][newResourceName]:
-                                #         if resourceAttribute in ["name"]:
-                                #             newResourceList[resourceType][newResourceName][resourceAttribute] = f"zv{virtualResourceId}"
-                                #             virtualResourceId += 1
+                                elif "ConflictChild" in testRule[1]:
+                                    for resourceAttribute in newResourceList[resourceType][newResourceName]:
+                                        if resourceAttribute in ["name"]:
+                                            newResourceList[resourceType][newResourceName][resourceAttribute] = f"zv{virtualResourceId}"
+                                            virtualResourceId += 1
                                 resourceJsonData["resource"].append(newResourceList)
                         else:
                             if resourceAddress in ignoredResourceSet:
