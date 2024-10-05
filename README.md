@@ -5,7 +5,7 @@ Zodiac is an automated tool that unearthes possible cloud IaC semantic checks (i
 ## System Requirements
 
 ### Hardware Requirements
-It is recommend to host Zodiac on commidty servers with more than 32G memory and 20 CPUs. Alternatively, one can set up a virtual machine according tothe attached `Vagrantfile` configuration. Zodiac does not rely on any domain specific hardware accelerators. 
+It is recommend to host Zodiac on commidty servers with more than 32G memory and 20 CPUs. Alternatively, one can set up a virtual machine according to the attached `Vagrantfile` configuration. Zodiac does not rely on any domain specific hardware accelerators. 
 
 ### Software Requirements
 Zodiac is tested on Ubuntu 20.04. Zodiac depends on a wide variety of existing software implementations, including but not limited to Terraform core and its Azure provider plugin, Rego/OPA policy engine, Z3 SMT solver. 
@@ -26,7 +26,7 @@ At a high level, the Zodiac project is composed of 5 major components:
 Zodiac was tested against Terraform with Azure provider, but most of its components are implemented in a cloud provider agnostic manner. The instructions below demonstrates an end-to-end example on unearthening semantic checks for a specific Azure cloud resource. 
 
 For the purpose of artifact evaluation, data preprocessing, knowledge base construction, and LLM interpolation sections can be skipped.
-Simply run the following commands to obtain required inputs for mining, filtering and validation sections in the current directory:
+Simply run the following commands to obtain required inputs (minimal example) for mining, filtering and validation sections in the current directory.:
 ```
 git clone https://github.com/824728350/ZodiacAE.git
 cp -r ZodiacAE/*  .
