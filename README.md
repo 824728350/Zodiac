@@ -91,8 +91,8 @@ sudo python3 -u regoMVPRuleTemplate.py --resource_type azurerm_application_gatew
 2. Filter mined semantic checks based on a set of heuristics (e.g. statistics such as confidence and lift):
 ```
 sudo time python3 -u regoMVPRuleFilter.py --resource_type azurerm_application_gateway --operation_type ATTR --reversed_type true > output4
-sudo time python3 -u regoMVPRuleFilter.py --resource_type azurerm_application_gateway --operation_type ATTR --reversed_type true > output5
-sudo time python3 -u regoMVPRuleFilter.py --resource_type azurerm_application_gateway --operation_type ATTR --reversed_type true > output6
+sudo time python3 -u regoMVPRuleFilter.py --resource_type azurerm_application_gateway --operation_type COMBO --reversed_type true > output5
+sudo time python3 -u regoMVPRuleFilter.py --resource_type azurerm_application_gateway --operation_type TOPO --reversed_type true > output6
 ```
 
 By the end of this pipeline, you should be able to see newly created folders such as `csvFiles`, `ruleJsonFiles` and `testFiles`. The candidate checks will be put in `testFiles/candidateFile0.json`.

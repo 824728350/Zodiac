@@ -957,7 +957,7 @@ def determineValue(resourceType, resourceProvider):
                     valueUnfilteredDict[attrName].append(item)
                 #if len(repoView[resourceType][attrName]) <= 5 and schemaAttrMode == "required":
                 if len(KBRepoView[resourceType][attrName]) == 1 or ("_name" in attrName and "sku" not in attrName) or "_id" in attrName or "_key" in attrName or "/" in attrName or "_range" in attrName or \
-                    "_uri" in attrName or ("_address" in attrName and "_address_" not in attrName) or (".name" in attrName and "sku" not in attrName) or ".address" in attrName or "id" in attrName:
+                    "_uri" in attrName or ("_address" in attrName and "_address_" not in attrName) or (".name" in attrName and "sku" not in attrName and "capabilities" not in attrName) or ".address" in attrName or "id" in attrName:
                     continue
                 elif len(KBRepoView[resourceType][attrName]) <= 6:
                     for item in KBRepoView[resourceType][attrName]:
@@ -971,7 +971,7 @@ def determineValue(resourceType, resourceProvider):
                             valueDict[attrName].append(None)
                         elif type(item) == bool or (len(item) <= 30 and len(item) >= 1 and "hold" not in item):
                             valueDict[attrName].append(item)
-                elif "size" in attrName or "location" in attrName or "sku" in attrName:
+                elif "size" in attrName or "location" in attrName or "sku" in attrName or "capabilities" in attrName:
                     for item in KBRepoView[resourceType][attrName]:
                         if removeDuplicate(valueDict, attrName, item) == True:
                             continue
