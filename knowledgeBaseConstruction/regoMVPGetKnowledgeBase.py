@@ -754,7 +754,7 @@ def removeDuplicate(valueDict, attrName, item):
             continue
         if item in currItem and item != currItem:
             return True
-        elif currItem in item:
+        elif currItem in item and not is_camel_case(item):
             valueDict[attrName].remove(currItem)
             valueDict[attrName].append(item)
             return True
@@ -766,6 +766,9 @@ def removeDuplicate(valueDict, attrName, item):
                 valueDict[attrName].append(item)
                 return True
     return False
+
+def is_camel_case(s):
+    return s != s.lower() and s != s.upper() and "_" not in s
 
 def getProviderSchema(resourceProvider):
     ### construct schema view first. This is required for filtering out optional variable
@@ -945,8 +948,6 @@ def determineValue(resourceType, resourceProvider):
     ### get repo view, this is the first step towards constant templating of rule mining.
     if resourceType not in KBRepoView:
         return
-    def is_camel_case(s):
-        return s != s.lower() and s != s.upper() and "_" not in s
     resourceTypeList = resourceType.split("_")
     resourceTypeCamelCase = "".join([item[0].upper()+item[1:] for item in resourceTypeList[1:]])
     
