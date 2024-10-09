@@ -752,7 +752,7 @@ def removeDuplicate(valueDict, attrName, item):
     for currItem in valueDict[attrName]:
         if not isinstance(currItem, str):
             continue
-        if item in currItem and item != currItem:
+        if item in currItem and item != currItem and not is_camel_case(currItem):
             return True
         elif currItem in item and not is_camel_case(item):
             valueDict[attrName].remove(currItem)
