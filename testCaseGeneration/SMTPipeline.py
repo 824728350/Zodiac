@@ -170,7 +170,7 @@ def coreValidationPipeline(contextData, validatedRuleVault, candidateRuleVault =
         
     def processSingeConfig(regoDirectory, source, positiveValidation=True, negativeValidation=False):
         optimization = True
-        attemptAmount = 3
+        attemptAmount = 5
         for regoFileName in sorted(list(os.listdir(regoDirectory))):
             if attemptAmount <= 0:
                 break
