@@ -77,7 +77,7 @@ def getMDCConfiguration(testRule, jsonInputDirName, jsonOutputDirName, MDCResour
         for tfFile in tfFiles:
             if ".tf.json" not in tfFile:
                 continue
-            ### Basic MDC processing, rename resource groups and storage account, remove non-MDC resources
+            ### Basic MDC processing, rename resource groups and other global naming resources, remove non-MDC resources
             resourceJsonData = json.load(open(f"{tfFile}", "r"))
             ### Just remove all output blocks given that we don not support modules anyway 
             if "output" in resourceJsonData:
@@ -131,7 +131,7 @@ def getMDCConfiguration(testRule, jsonInputDirName, jsonOutputDirName, MDCResour
                     for resourceName in list(resourceList[resourceType].keys()):
                         if resourceType+"."+resourceName not in MDCResourceSet:
                             del(resourceList[resourceType][resourceName])
-                        elif resourceType == "azurerm_resource_group":
+                        elif resourceType.endswith("resource_group"):
                             for resourceAttribute in resourceList[resourceType][resourceName]:
                                 if resourceAttribute in ["name"]:
                                     resourceList[resourceType][resourceName][resourceAttribute] = f"ZODIAC-MDC-{resourceGroupId}"
@@ -267,7 +267,7 @@ def getGENConfiguration(testRule, jsonInputDirName, jsonOutputDirName, mutationD
                                 newResourceName = newResourceAddress.split(".")[-1]
                                 newResourceList[resourceType][newResourceName] = newResourceBlock
                                 
-                                if resourceType == "azurerm_resource_group":
+                                if resourceType.endswith("resource_group"):
                                     for resourceAttribute in newResourceList[resourceType][newResourceName]:
                                         if resourceAttribute in ["name"]:
                                             newResourceList[resourceType][newResourceName][resourceAttribute] = f"ZODIAC-GEN-{resourceGroupId}"
@@ -288,7 +288,7 @@ def getGENConfiguration(testRule, jsonInputDirName, jsonOutputDirName, mutationD
                         else:
                             if resourceAddress in ignoredResourceSet:
                                 continue
-                            if resourceType == "azurerm_resource_group":
+                            if resourceType.endswith("resource_group"):
                                 if "name" in resourceList[resourceType][resourceName]:
                                     resourceList[resourceType][resourceName]["name"] = f"ZODIAC-GEN-{resourceGroupId}"
                                     resourceGroupList.append(f"ZODIAC-GEN-{resourceGroupId}")

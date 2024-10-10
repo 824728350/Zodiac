@@ -735,7 +735,7 @@ def constructRegoAttr(resourceType, opType):
                     idAttr3 = idAttrList1[0]
                     regoOpString += f"    contains({idAttr1},{idAttr3})\n"
             if opName1 == "Enum" and opName2 == "Enum":
-                regoOpString += f'    any([contains(idAttrThenEnum, "type"), contains(idAttrThenEnum, "name"), contains(idAttrThenEnum, "priority"), contains(idAttrThenEnum, "enable"), contains(idAttrThenEnum, "publisher"), contains(idAttrThenEnum, "offer"), contains(idAttrThenEnum, "version"), contains(idAttrThenEnum, "scale"), contains(idAttrThenEnum, "zone"), contains(idAttrThenEnum, "collation"), contains(idAttrThenEnum, "capabilities")])\n'
+                regoOpString += f'    any([contains(idAttrThenEnum, "type"), contains(idAttrThenEnum, "name"), contains(idAttrThenEnum, "priority"), contains(idAttrThenEnum, "enable"), contains(idAttrThenEnum, "publisher"), contains(idAttrThenEnum, "offer"), contains(idAttrThenEnum, "version"), contains(idAttrThenEnum, "scale"), contains(idAttrThenEnum, "zone"), contains(idAttrThenEnum, "collation"), contains(idAttrThenEnum, "capabilities"), contains(idAttrThenEnum, "family")])\n'
                 regoOpString += f'    not any([contains(idAttrThenEnum, "sku"), contains(idAttrThenEnum, "size")])\n'
                 regoOpString += f'    not any([contains(idAttrIfEnum, "publisher"), contains(idAttrIfEnum, "offer"), contains(idAttrIfEnum, "version"), contains(idAttrIfEnum, "option"), contains(idAttrIfEnum, "disable")])\n'
                 #regoOpString += f'    not contains(idAttrIfEnum, "version")\n'

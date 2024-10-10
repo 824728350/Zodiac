@@ -1035,6 +1035,6 @@ if __name__ == "__main__":
         ### Usage example: time python3 -u regoMVPGetKnowledgeBase.py --resource_name PROVIDER --resource_provider terraform-provider-azurerm
         getProviderRegistry(str(args.resource_provider))
     else:
-        ### Must run this bfore the main knowledge base generation function!
+        ### Must run this before the main knowledge base generation function!
         ### Usage example: time python3 -u regoMVPGetKnowledgeBase.py --resource_name SCHEMA --resource_provider terraform-provider-azurerm
         getProviderSchema(str(args.resource_provider))
