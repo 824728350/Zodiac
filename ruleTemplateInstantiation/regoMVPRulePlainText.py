@@ -165,18 +165,63 @@ def normalOperationTranslation(operation, row, rowIndex, resultStringList, opera
     elif operation == "Constant":
         resourceA = row[rowIndex][:find_nth(row[rowIndex], ".", 1)] + ".a"
         statement1 = row[rowIndex][:].replace(resourceA[:-2], resourceA)
-        resultStringList.append(f"{statement1}")
+        resultStringList.append(f"there is {statement1}")
         rowIndex += 1
     elif operation == "ConstantComboDown":
         resourceA = row[rowIndex][:find_nth(row[rowIndex], ".", 1)] + ".a"
         statement1 = row[rowIndex][:].replace(resourceA[:-2], resourceA)
-        resultStringList.append(f"{statement1}")
+        resultStringList.append(f"there is {statement1}")
         rowIndex += 1
     elif operation == "ConstantComboUp":
         resourceB = row[rowIndex][:find_nth(row[rowIndex], ".", 1)] + ".b"
         statement2 = row[rowIndex][:].replace(resourceB[:-2], resourceB)
-        resultStringList.append(f"{statement2}")
+        resultStringList.append(f"there is {statement2}")
         rowIndex += 1
+    elif operation == "NonConstant":
+        resourceA = row[rowIndex][:find_nth(row[rowIndex], ".", 1)] + ".a"
+        statement1 = row[rowIndex][:].replace(resourceA[:-2], resourceA)
+        resultStringList.append(f"there cannot be {statement1}")
+        rowIndex += 1
+    elif operation == "NonConstantComboDown":
+        resourceA = row[rowIndex][:find_nth(row[rowIndex], ".", 1)] + ".a"
+        statement1 = row[rowIndex][:].replace(resourceA[:-2], resourceA)
+        resultStringList.append(f"there cannot be {statement1}")
+        rowIndex += 1
+    elif operation == "NonConstantComboUp":
+        resourceB = row[rowIndex][:find_nth(row[rowIndex], ".", 1)] + ".b"
+        statement2 = row[rowIndex][:].replace(resourceB[:-2], resourceB)
+        resultStringList.append(f"there cannot be {statement2}")
+        rowIndex += 1
+    elif operation == "CIDRRange":
+        resourceA = row[rowIndex][:find_nth(row[rowIndex], ".", 1)] + ".a"
+        statement1 = row[rowIndex][:find_nth(row[rowIndex], "=", 1)-1].replace(resourceA[:-2], resourceA)
+        statement2 = row[rowIndex][find_nth(row[rowIndex], "=", 2)+2:]
+        resultStringList.append(f"{statement1} range cannot be smaller than {statement2}")
+        rowIndex += 1
+    elif operation == "CIDRRangeComboDown":
+        resourceA = row[rowIndex][:find_nth(row[rowIndex], ".", 1)] + ".a"
+        statement1 = row[rowIndex][:find_nth(row[rowIndex], "=", 1)-1].replace(resourceA[:-2], resourceA)
+        statement2 = row[rowIndex][find_nth(row[rowIndex], "=", 2)+2:]
+        resultStringList.append(f"{statement1} range cannot be smaller than {statement2}")
+        rowIndex += 1
+    elif operation == "CIDRRangeComboUp":
+        resourceB = row[rowIndex][:find_nth(row[rowIndex], ".", 1)] + ".b"
+        statement1 = row[rowIndex][:find_nth(row[rowIndex], "=", 1)-1].replace(resourceB[:-2], resourceB)
+        statement2 = row[rowIndex][find_nth(row[rowIndex], "=", 2)+2:]
+        resultStringList.append(f"{statement1} range cannot be smaller than {statement2}")
+        rowIndex += 1
+    elif operation == "AggParent":
+        resourceA = row[rowIndex][:find_nth(row[rowIndex], ".", 1)] + ".a"
+        resourceB = row[rowIndex+1][:find_nth(row[rowIndex+1], ".", 1)]
+        statement2 = row[rowIndex+1][find_nth(row[rowIndex+1], "=", 2)+2:]
+        resultStringList.append(f"the number of {resourceB} that {resourceA} could depend on is restricted to {statement2}")
+        rowIndex += 1
+    elif operation == "AggChild":
+        resourceA = row[rowIndex][:find_nth(row[rowIndex], ".", 1)]
+        resourceB = row[rowIndex+1][:find_nth(row[rowIndex+1], ".", 1)] + ".b"
+        statement1 = row[rowIndex][find_nth(row[rowIndex], "=", 2)+2:]
+        resultStringList.append(f"the number of {resourceA} that could depend on {resourceB} is restricted to {statement1}")
+        rowIndex += 2
     elif operation == "Enum":
         resourceA = row[rowIndex][:find_nth(row[rowIndex], ".", 1)] + ".a"
         statement1 = row[rowIndex][:find_nth(row[rowIndex], "=", 1)-1].replace(resourceA[:-2], resourceA)
