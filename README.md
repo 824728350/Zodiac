@@ -23,7 +23,7 @@ At a high level, the Zodiac project is composed of 5 major components:
 * `LLMInterpolation` queries LLM to fill in missing details within mined intepolation candidates, by carefully prompting open source models to refer to the newest cloud provider documentations.
 * `testCaseGeneration` generates both positive and negative test cases for each mined semantic checks. This is done by pruning and mutating crawled Terraform programs according to the instruction of a Z3 SMT solver. The directory also contains the validation scheduling components which actually perform deployment based testing by interacting with cloud providers.  
 
-Zodiac was tested against Terraform with Azure provider, but most of its components are implemented in a cloud provider agnostic manner. The instructions below demonstrates an end-to-end example on unearthening semantic checks for Azure cloud resources. 
+Zodiac was tested against Terraform with Azure provider (those listed in `resourceList.json`), but most of its components are implemented in a cloud provider agnostic manner. To find checks for a new type of resource, please make sure it is added to the end of `resourceList.json`. The instructions below should work for unearthening semantic checks for Azure cloud resources, please raise issues if some steps don't work for other cloud providers. 
 
 Please also make sure you have an Azure account logged in + Azure subscription environment setup:
 ```
