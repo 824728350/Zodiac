@@ -25,13 +25,6 @@ At a high level, the Zodiac project is composed of 5 major components:
 
 Zodiac was tested against Terraform with Azure provider, but most of its components are implemented in a cloud provider agnostic manner. The instructions below demonstrates an end-to-end example on unearthening semantic checks for a specific Azure cloud resource. 
 
-For the purpose of artifact evaluation, data preprocessing, knowledge base construction, and LLM interpolation sections can be skipped.
-Simply run the following commands to obtain required inputs (minimal example) for mining, filtering and validation sections in the current directory.:
-```
-git clone https://github.com/824728350/ZodiacAE.git
-cp -r ZodiacAE/*  .
-```
-
 Please also make sure you have an Azure account logged in + Azure subscription environment setup:
 ```
 sudo az login
@@ -47,17 +40,17 @@ Doing this for all resource listed in `resourceList.json` may take 10+ hours:
 ```
 sudo python3 -u getOnlineRepo.py --resource_name ALL --token {YOUR GITHUB TOKEN} > output2
 ```
-Alternatively, you can do this only for a specific resource. For the rest of this tutorial, we assume that resource is azurerm_application_gateway:
+Alternatively, you can do this only for a specific type of resource (any one in `resourceList.json` should be fine, e.g. azurerm_linux_virtual_machine, azurerm_subnet, azurerm_mssql_database, azurerm_application_gateway, etc.):
 ```
-sudo python3 -u getOnlineRepo.py --resource_name azurerm_application_gateway --token {YOUR GITHUB TOKEN} > output2
+sudo python3 -u getOnlineRepo.py --resource_name {TERRAFORM RESOURCE TYPE} --token {YOUR GITHUB TOKEN} > output2
 ```
 3. Code transformations on crawled Terraform program, and translation to rego compatible format:
 ```
-sudo python3 -u getRegoFormat.py --resource_name azurerm_application_gateway > output3 2>&1
+sudo python3 -u getRegoFormat.py --resource_name  {TERRAFORM RESOURCE TYPE} > output3 2>&1
 ``` 
 4. Handles Terraform child modules on the rego level:
 ```
-sudo python3 -u getModuleContent.py --resource_name azurerm_application_gateway --existing true > output4
+sudo python3 -u getModuleContent.py --resource_name  {TERRAFORM RESOURCE TYPE} --existing true > output4
 ```
 
 By the end of this pipeline, you should be able to see newly created directories such as `repoFiles`, `folderFiles`, and `regoFiles`.
@@ -67,16 +60,16 @@ By the end of this pipeline, you should be able to see newly created directories
 ```
 sudo python3 -u regoMVPGetKnowledgeBase.py --resource_name SCHEMA --resource_provider terraform-provider-azurerm > output1
 sudo python3 -u regoMVPGetKnowledgeBase.py --resource_name PROVIDER --resource_provider terraform-provider-azurerm > output2
-sudo python3 -u regoMVPGetKnowledgeBase.py --resource_name azurerm_application_gateway --resource_provider terraform-provider-azurerm > output3
+sudo python3 -u regoMVPGetKnowledgeBase.py --resource_name {TERRAFORM RESOURCE TYPE} --resource_provider terraform-provider-azurerm > output3
 ```
 2. Obtain JSON format of crawled programs and their mapping with Rego format:
 ```
-sudo python3 -u regoMVPGetTranslation.py --action TRANS --resource_name azurerm_application_gateway > output4
-python3 -u regoMVPGetTranslation.py --action MAP --resource_name azurerm_application_gateway > output5
+sudo python3 -u regoMVPGetTranslation.py --action TRANS --resource_name {TERRAFORM RESOURCE TYPE} > output4
+python3 -u regoMVPGetTranslation.py --action MAP --resource_name {TERRAFORM RESOURCE TYPE} > output5
 ```
 3. Get deployment partial order among Terraform resource types:
 ```
-time python3 -u regoMVPGetPartialOrder.py --resource_name azurerm_application_gateway > output6
+time python3 -u regoMVPGetPartialOrder.py --resource_name {TERRAFORM RESOURCE TYPE} > output6
 ```
 
 By the end of this pipeline, you should be able to see newly created directories like `schemaFiles`, as well as newly created files under `regoFiles` that go with `*View.json`
@@ -84,15 +77,15 @@ By the end of this pipeline, you should be able to see newly created directories
 ### Rule template instantiation
 1. Mine semantic checks based on Rego templates and Terraform programs. ATTR, COMBO and TOPO are three categories of semantic checks that are the most important:
 ```
-sudo python3 -u regoMVPRuleTemplate.py --resource_type azurerm_application_gateway --operation_type ATTR --threshold 1000 > output1
-sudo python3 -u regoMVPRuleTemplate.py --resource_type azurerm_application_gateway --operation_type COMBO --threshold 1000 > output2
-sudo python3 -u regoMVPRuleTemplate.py --resource_type azurerm_application_gateway --operation_type TOPO --threshold 1000 > output3
+sudo python3 -u regoMVPRuleTemplate.py --resource_type {TERRAFORM RESOURCE TYPE} --operation_type ATTR --threshold 1000 > output1
+sudo python3 -u regoMVPRuleTemplate.py --resource_type {TERRAFORM RESOURCE TYPE} --operation_type COMBO --threshold 1000 > output2
+sudo python3 -u regoMVPRuleTemplate.py --resource_type {TERRAFORM RESOURCE TYPE} --operation_type TOPO --threshold 1000 > output3
 ```
 2. Filter mined semantic checks based on a set of heuristics (e.g. statistics such as confidence and lift):
 ```
-sudo time python3 -u regoMVPRuleFilter.py --resource_type azurerm_application_gateway --operation_type ATTR --reversed_type true > output4
-sudo time python3 -u regoMVPRuleFilter.py --resource_type azurerm_application_gateway --operation_type COMBO --reversed_type true > output5
-sudo time python3 -u regoMVPRuleFilter.py --resource_type azurerm_application_gateway --operation_type TOPO --reversed_type true > output6
+sudo time python3 -u regoMVPRuleFilter.py --resource_type {TERRAFORM RESOURCE TYPE} --operation_type ATTR --reversed_type true > output4
+sudo time python3 -u regoMVPRuleFilter.py --resource_type {TERRAFORM RESOURCE TYPE} --operation_type COMBO --reversed_type true > output5
+sudo time python3 -u regoMVPRuleFilter.py --resource_type {TERRAFORM RESOURCE TYPE} --operation_type TOPO --reversed_type true > output6
 ```
 
 By the end of this pipeline, you should be able to see newly created folders such as `csvFiles`, `ruleJsonFiles` and `testFiles`. The candidate checks will be put in `testFiles/candidateFile0.json`.
@@ -100,23 +93,30 @@ By the end of this pipeline, you should be able to see newly created folders suc
 ### LLM Interpolation
 Detailed instruction for LLM Interpolation is within the `READE.md` under `LLMInterpolation` folder.
 
-### Test case generation
+### Test case generation/validation scheduling
+The validation engine can be tested independently. To directly evaluate the validation engine (i.e. test case generation) of Zodiac, you can run the following commands to obtain minimal example output (i.e. some candidate checks) from the mining engine, and use them as required inputs for the validation section:
+```
+git clone https://github.com/824728350/ZodiacAE.git
+cp -r ZodiacAE/*  .
+```
+Notably, we consider checks in `testFiles/validatedFile0.json` as already validated, and focus on showing how new candidate checks can be validated correctly.
+ 
 1. Make sure you have created an Azure account, logged into the account via CLI, and switched to the right subscription directory:
 ```
 sudo az account set --subscription="{YOUR SUBSCRIPTION}"
 ```
-2. Invoke deployment based test case generation to validate the correctness of mined semantic checks:
+2. You should be able to directly invoke deployment based test case generation + deployment scheduling pipelines to validate the correctness of mined semantic checks:
 Running all the iterations to falsify or validate all candidate checks could take multiple hours:
 ```
 sudo python3 SMTValidation.py >output1 2>output2
 ```
-Alternatively, run the first true positive validation pass to obtain most true positives:
+A faster way is to run the first true positive validation pass to obtain most true positives:
 ```
 sudo python3 -u SMTPipeline.py --control_index 1 --direction True --interpolation False >output3 2>output4
 sudo python3 -u SMTSummarize.py --conrol_index 1 --direction True >output5 2>output6
 ```
 
-By the end of this pipeline, you should be able to see a set of new validated checks at the end of `testFiles/validatedFile1.json`.
+By the end of the first positive validation pass, you should be able to see a set of newly validated checks at the end of `testFiles/validatedFile1.json`.
 
 ## Citation
 
