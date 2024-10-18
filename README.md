@@ -94,23 +94,24 @@ By the end of this pipeline, you should be able to see newly created folders suc
 Detailed instruction for LLM Interpolation is within the `READE.md` under `LLMInterpolation` folder.
 
 ### Test case generation/validation scheduling
-The validation engine can be tested independently. To directly evaluate the validation engine (i.e. test case generation) of Zodiac, you can run the following commands to obtain minimal example output (i.e. some candidate checks) from the mining engine, and use them as required inputs for the validation section:
+The validation engine (i.e. test case generation + validation scheduling) of Zodiac can be tested independently. To directly evaluate the validation engine, you can run the following commands to obtain minimal example output (i.e. some candidate checks) from the mining engine, and use them as required inputs for the validation section:
 ```
 git clone https://github.com/824728350/ZodiacAE.git
 cp -r ZodiacAE/*  .
 ```
-Notably, we consider checks in `testFiles/validatedFile0.json` as already validated, and focus on showing how new candidate checks can be validated correctly.
+To make things simpler, we consider checks in `testFiles/validatedFile0.json` as already validated, and focus on showing how new candidate checks in `testFiles/candidateFile0.json` can be validated.
  
 1. Make sure you have created an Azure account, logged into the account via CLI, and switched to the right subscription directory:
 ```
 sudo az account set --subscription="{YOUR SUBSCRIPTION}"
 ```
 2. You should be able to directly invoke deployment based test case generation + deployment scheduling pipelines to validate the correctness of mined semantic checks:
-Running all the iterations to falsify or validate all candidate checks could take multiple hours:
+
+If you are not using the provided minimal example, then you should run all the iterations to falsify or validate all candidate checks, which could take multiple hours:
 ```
 sudo python3 SMTValidation.py >output1 2>output2
 ```
-A faster way is to run the first true positive validation pass to obtain most true positives:
+If you are using the provided minimal example, then a faster way is to run the first true positive validation pass to obtain most true positives:
 ```
 sudo python3 -u SMTPipeline.py --control_index 1 --direction True --interpolation False >output3 2>output4
 sudo python3 -u SMTSummarize.py --conrol_index 1 --direction True >output5 2>output6
