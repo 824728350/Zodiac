@@ -11,10 +11,9 @@ schemaFiles/*
 filterRuleExpressionInput/*
 filterRuleExpressionOutput/*
 interpolateRules.txt
-testFilesi/*
+testFiles/*
 __pycache__
 */__pycache__
 */terraform-provider-*
 */output*
 */*.json
-*/*.csv
