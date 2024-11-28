@@ -1,1 +1,1 @@
-The `sampledChecks.csv` file contains 150 sampled semantic checks that Zodiac was able to mine and validate, with corresponding natural language descriptions.
+The `sampledChecks.csv` file contains 150 sampled semantic checks that Zodiac was able to mine and validate, with corresponding natural language descriptions. Please email Zodiac authors directly if you'd like to access more semantic checks!
